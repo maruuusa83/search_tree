@@ -1,20 +1,12 @@
-pub struct Pair<T: PartialOrd, U> {
-    pub key : T,
-    pub value: U,
-}
-pub struct Node<T: PartialOrd, U> {
-    pub left: Option<Box<Node<T, U>>>,
-    pub right: Option<Box<Node<T, U>>>,
-    pub pair: Pair<T, U>,
+use common::{Pair, Node, SearchTree};
+
+pub struct NaiveTree<K: PartialOrd, V> {
+    pub root: Option<Box<Node<K, V>>>,
 }
 
-pub struct BTree<T: PartialOrd, U> {
-    pub root: Option<Box<Node<T, U>>>,
-}
-
-impl<T: PartialOrd, U> BTree<T, U> {
-    pub fn insert(&mut self, pair: Pair<T, U>) {
-        fn _insert<T: PartialOrd, U>(pair: Pair<T, U>, pos: &mut Option<Box<Node<T, U>>>) {
+impl<K: PartialOrd, V> SearchTree<K, V> for NaiveTree<K, V> {
+    fn insert(&mut self, pair: Pair<K, V>) {
+        fn _insert<K: PartialOrd, V>(pair: Pair<K, V>, pos: &mut Option<Box<Node<K, V>>>) {
             match pos {
                 Some(ref mut node) => {
                     if node.pair.key < pair.key {
@@ -34,15 +26,15 @@ impl<T: PartialOrd, U> BTree<T, U> {
     }
 
 
-    pub fn search(&self, key: T) -> &Option<Box<Node<T, U>>> {
-        fn _search<T: PartialOrd, U>(pos: &Option<Box<Node<T, U>>>, key: T) -> &Option<Box<Node<T, U>>> {
+    fn search(&self, key: K) -> &Option<Box<Node<K, V>>> {
+        fn _search<K: PartialOrd, V>(pos: &Option<Box<Node<K, V>>>, key: K) -> &Option<Box<Node<K, V>>> {
             match pos {
                 Some(ref node) => {
-                    if (node.pair.key == key) {
+                    if node.pair.key == key {
                         return pos;
                     }
 
-                    if (node.pair.key < key) {
+                    if node.pair.key < key {
                         return _search(&node.right, key);
                     }
                     else {
