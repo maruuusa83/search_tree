@@ -5,6 +5,8 @@ pub struct NaiveTree<K: PartialOrd, V> {
 }
 
 impl<K: PartialOrd, V> SearchTree<K, V> for NaiveTree<K, V> {
+    type N = Node<K, V>;
+
     fn insert(&mut self, pair: Pair<K, V>) {
         fn _insert<K: PartialOrd, V>(pair: Pair<K, V>, pos: &mut Option<Box<Node<K, V>>>) {
             match pos {
@@ -25,8 +27,7 @@ impl<K: PartialOrd, V> SearchTree<K, V> for NaiveTree<K, V> {
         _insert(pair, &mut self.root);
     }
 
-
-    fn search(&self, key: K) -> &Option<Box<Node<K, V>>> {
+    fn search(&self, key: K) -> &Option<Box<Self::N>> {
         fn _search<K: PartialOrd, V>(pos: &Option<Box<Node<K, V>>>, key: K) -> &Option<Box<Node<K, V>>> {
             match pos {
                 Some(ref node) => {

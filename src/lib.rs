@@ -3,7 +3,7 @@ extern crate rand;
 pub mod common;
 pub mod naive_tree;
 
-use common::{Pair, SearchTree};
+use common::{Pair, SearchTree, NodeTrait};
 use naive_tree::NaiveTree;
 use rand::Rng;
 
@@ -17,14 +17,13 @@ fn insert<T: SearchTree<i32, i32>>(mut st: T, index: &[i32]) {
 
         let result = st.search(pair_2.key);
         match result {
-            Some(node) => assert_eq!(pair_2.value, node.pair.value),
+            Some(node) => assert_eq!(pair_2.value, node.pair().value),
             None => assert!(false, "result wasn't found"),
         }
     }
 }
 
-
-fn random_insert<T: SearchTree<i32, i32>>(mut st: T) {
+fn random_insert<T: SearchTree<i32, i32>>(st: T) {
     let mut index = [0i32; 10000];
     for i in 0..index.len() {
         index[i] = i as i32;
@@ -41,7 +40,7 @@ fn random_insert<T: SearchTree<i32, i32>>(mut st: T) {
     insert(st, &index);
 }
 
-fn sequential_insert<T: SearchTree<i32, i32>>(mut st: T) {
+fn sequential_insert<T: SearchTree<i32, i32>>(st: T) {
     let mut index = [0i32; 10000];
     for i in 0..index.len() {
         index[i] = i as i32;
