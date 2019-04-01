@@ -1,0 +1,7 @@
+[package]
+name = "search_tree"
+version = "0.1.0"
+authors = ["Daichi Teruya <tmarusa83@gmail.com>"]
+
+[dependencies]
+rand = "0.6"
